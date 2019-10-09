@@ -1,0 +1,16 @@
+{% extends "polls/base.html" %}
+<!-- {{question}} -->
+{% block content %}
+<h1>{{ question.question_text }}</h1>
+
+<form action="{% url "polls:vote" question.id %}" method="post">
+    <!-- protects agains cross-site forgery  -->
+    {% csrf_token %}
+    <!-- brings all choice that are set to question -->
+    {% for choice in question.choice_set.all %}
+        <input type="radio" name="choice" id="choice{{ forloop.counter }}" value="{{choice.id}}" />
+        <label for="choice{{forloop.counter}}">{{ choice.choice_text }}</label>
+    {% endfor %}
+    <button>Vote</button>
+</form>
+{% endblock %}
